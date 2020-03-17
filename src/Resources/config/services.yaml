@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+  Jojotique\Api\UI\Responder\ApiResponder:
+    public: true
+
+  Jojotique\Api\Domain\Loader\Loader:
+    public: true
