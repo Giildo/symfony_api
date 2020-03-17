@@ -1,0 +1,16 @@
+{
+  "type": "project",
+  "version": "0.1.0",
+  "name": "jojotique/api",
+  "description": "Build API with Symfony 4",
+  "require": {
+    "php": "^7.3"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Giildo",
+      "email": "giildo.jm@gmail.com"
+    }
+  ]
+}
