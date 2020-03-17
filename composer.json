@@ -8,7 +8,8 @@
     "php": "^7.4",
     "nelmio/api-doc-bundle": "^3.5",
     "symfony/twig-pack": "^1.0",
-    "symfony/orm-pack": "^1.0"
+    "symfony/orm-pack": "^1.0",
+    "symfony/serializer": "4.4.*"
   },
   "license": "MIT",
   "authors": [
@@ -21,6 +22,14 @@
     "psr-4": {
       "Jojotique\\Api\\": "src/"
     }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ]
   },
   "extra": {
     "symfony": {

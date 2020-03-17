@@ -6,13 +6,13 @@ use Jojotique\Api\Domain\Output\Interfaces\OutInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-interface ResponderInterface
+interface ApiResponderInterface
 {
     /**
-     * @param OutInterface|null $content - Default format fot output object
-     * @param Request|null      $request - Request for caching
-     * @param int|null          $status - Response status code
-     * @param array|null        $headers - Response headers
+     * @param OutInterface|null $content
+     * @param Request|null      $request
+     * @param int|null          $status
+     * @param array|null        $headers
      *
      * @return Response
      */

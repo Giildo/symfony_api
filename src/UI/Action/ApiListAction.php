@@ -2,25 +2,26 @@
 
 namespace Jojotique\Api\UI\Action;
 
-use Jojotique\Api\Domain\Loader\Interfaces\LoaderInterface;
-use Jojotique\Api\UI\Responder\Interfaces\ResponderInterface;
+use Jojotique\Api\Domain\Loader\Loader;
+use Jojotique\Api\UI\Responder\ApiResponder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ListAction
+class ApiListAction
 {
-    private ResponderInterface $responder;
-    private LoaderInterface $loader;
+    private ApiResponder $responder;
+    private Loader $loader;
+    protected string $objectName;
 
     /**
      * ListAction constructor.
      *
-     * @param ResponderInterface $responder
-     * @param LoaderInterface    $loader
+     * @param ApiResponder    $responder
+     * @param Loader $loader
      */
     public function __construct(
-        ResponderInterface $responder,
-        LoaderInterface $loader
+        ApiResponder $responder,
+        Loader $loader
     ) {
         $this->responder = $responder;
         $this->loader = $loader;
@@ -34,7 +35,7 @@ class ListAction
     public function list(Request $request): Response
     {
         return $this->responder->response(
-            $this->loader->load(),
+            $this->loader->load($this->objectName),
             $request
         );
     }
