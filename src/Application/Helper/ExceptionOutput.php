@@ -7,22 +7,15 @@ use Swagger\Annotations as SWG;
 
 class ExceptionOutput implements ExceptionOutputInterface
 {
-    /**
-     * @var string
-     */
-    private $message;
-    /**
-     * @var int
-     */
-    private $codeError;
+    private string $message;
+    private int $codeError;
     /**
      * @SWG\Property(
      *     type="array",
      *     @SWG\Items(type="string")
      * )
-     * @var array|null
      */
-    private $errors;
+    private ?array $errors;
 
     /**
      * ExceptionOutput constructor.
