@@ -3,11 +3,13 @@
 namespace Jojotique\Api\Domain\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Jojotique\Api\Domain\Model\Interfaces\ModelInterface;
 use Jojotique\Api\Domain\Repository\Interfaces\RepositoryInterface;
 
-abstract class ApiRepository extends ServiceEntityRepository implements RepositoryInterface
+class ApiRepository extends ServiceEntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
@@ -17,7 +19,12 @@ abstract class ApiRepository extends ServiceEntityRepository implements Reposito
     }
 
     /**
-     * @inheritDoc
+     * Save an item.
+     *
+     * @param ModelInterface $model
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function saveItem(ModelInterface $model): void
     {
@@ -26,7 +33,12 @@ abstract class ApiRepository extends ServiceEntityRepository implements Reposito
     }
 
     /**
-     * @inheritDoc
+     * Delete an item.
+     *
+     * @param ModelInterface $model
+     *
+     * @throws OptimisticLockException
+     * @throws ORMException
      */
     public function deleteItem(ModelInterface $model): void
     {

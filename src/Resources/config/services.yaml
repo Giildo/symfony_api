@@ -11,3 +11,6 @@ services:
 
   Jojotique\Api\Domain\Saver\Saver:
     public: true
+
+  Jojotique\Api\Domain\Deleter\Deleter:
+    public: true
