@@ -22,7 +22,7 @@ interface RepositoryInterface
      * @param string $id
      *
      * @return ModelInterface|null
-     * @throws
+     * @throws NonUniqueResultException
      */
     public function loadItemById(string $id): ?ModelInterface;
 
@@ -35,4 +35,14 @@ interface RepositoryInterface
      * @throws OptimisticLockException
      */
     public function saveItem(ModelInterface $model): void;
+
+    /**
+     * Delete an item.
+     *
+     * @param ModelInterface $model
+     *
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    public function deleteItem(ModelInterface $model): void;
 }
