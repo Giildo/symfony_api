@@ -8,3 +8,12 @@ services:
 
   Jojotique\Api\Domain\Loader\Loader:
     public: true
+
+  Jojotique\Api\Domain\Saver\Saver:
+    public: true
+
+  Jojotique\Api\Domain\Deleter\Deleter:
+    public: true
+
+  Jojotique\Api\Domain\Updater\Updater:
+    public: true
