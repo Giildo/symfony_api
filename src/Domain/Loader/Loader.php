@@ -6,13 +6,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Jojotique\Api\Application\Helper\ExceptionOutput;
 use Jojotique\Api\Application\Helper\TokenException;
-use Jojotique\Api\Domain\Loader\Interfaces\LoaderInterface;
 use Jojotique\Api\Domain\Output\Interfaces\OutInterface;
 use Jojotique\Api\Domain\Output\Output;
 use Jojotique\Api\Domain\Output\Outputs;
 use Jojotique\Api\Domain\Repository\Interfaces\RepositoryInterface;
 
-class Loader implements LoaderInterface
+class Loader
 {
     /**
      * @var EntityManagerInterface

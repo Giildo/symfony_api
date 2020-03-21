@@ -3,12 +3,11 @@
 namespace Jojotique\Api\UI\Responder;
 
 use Jojotique\Api\Domain\Output\Interfaces\OutInterface;
-use Jojotique\Api\UI\Responder\Interfaces\ApiResponderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class ApiResponder implements ApiResponderInterface
+class ApiResponder
 {
     private SerializerInterface $serializer;
 

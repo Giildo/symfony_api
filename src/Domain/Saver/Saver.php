@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Domain\Saver;
+namespace Jojotique\Api\Domain\Saver;
 
-use App\Domain\DTO\Interfaces\DTOInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Jojotique\Api\Application\Helper\ExceptionOutput;
 use Jojotique\Api\Application\Helper\Interfaces\ExceptionOutputInterface;
 use Jojotique\Api\Application\Helper\TokenException;
+use Jojotique\Api\Domain\DTO\Interfaces\DTOInterface;
 use Jojotique\Api\Domain\Model\Interfaces\ModelInterface;
 use Jojotique\Api\Domain\Output\Interfaces\OutInterface;
 use Jojotique\Api\Domain\Output\Output;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class ApplicationSaver
+class Saver
 {
     private SerializerInterface $serializer;
     private ValidatorInterface $validator;
@@ -75,10 +76,19 @@ class ApplicationSaver
      */
     protected function hasErrors(ConstraintViolationListInterface $errors): ExceptionOutputInterface
     {
+        $messages = [];
+
+        /** @var ConstraintViolation $error */
+        foreach ($errors->getIterator()->getArrayCopy() as $error) {
+            $messages[] = [
+                'field'   => $error->getPropertyPath(),
+                'message' => $error->getMessage(),
+            ];
+        }
         return new ExceptionOutput(
             'The request contains syntax errors. Please check the information provided.',
             TokenException::BAD_REQUEST,
-            $errors->getIterator()->getArrayCopy()
+            $messages
         );
     }
 
