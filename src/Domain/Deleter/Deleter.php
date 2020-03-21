@@ -2,36 +2,51 @@
 
 namespace Jojotique\Api\Domain\Deleter;
 
-use App\Domain\Deleter\Interfaces\DeleterInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Jojotique\Api\Application\Helper\ExceptionOutput;
 use Jojotique\Api\Application\Helper\Interfaces\ExceptionOutputInterface;
 use Jojotique\Api\Application\Helper\TokenException;
+use Jojotique\Api\Domain\Model\Interfaces\ModelInterface;
 use Jojotique\Api\Domain\Repository\Interfaces\RepositoryInterface;
 
-class Deleter implements DeleterInterface
+class Deleter
 {
     /**
-     * @var RepositoryInterface
+     * @var EntityManagerInterface
      */
-    private RepositoryInterface $repository;
+    private EntityManagerInterface $entityManager;
 
     /**
      * Deleter constructor.
      *
-     * @param RepositoryInterface $repository
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        RepositoryInterface $repository
+        EntityManagerInterface $entityManager
     ) {
-        $this->repository = $repository;
+        $this->entityManager = $entityManager;
     }
 
     /**
-     * @inheritDoc
+     * @param string|int $id
+     * @param string     $objectName
+     *
+     * @return ExceptionOutputInterface|null
+     * @throws NonUniqueResultException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
-    public function delete($id): ?ExceptionOutputInterface
-    {
-        $item = $this->repository->loadItemById($id);
+    public function delete(
+        $id,
+        string $objectName
+    ): ?ExceptionOutputInterface {
+        /** @var RepositoryInterface $repository */
+        $repository = $this->entityManager->getRepository($objectName);
+        /** @var ModelInterface $item */
+        $item = $repository->loadItemById($id);
 
         if (is_null($item)) {
             return new ExceptionOutput(
@@ -40,7 +55,7 @@ class Deleter implements DeleterInterface
             );
         }
 
-        $this->repository->deleteItem($item);
+        $repository->deleteItem($item);
 
         return null;
     }

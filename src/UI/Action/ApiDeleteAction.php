@@ -39,6 +39,7 @@ class ApiDeleteAction
     /**
      * @param Request    $request
      * @param string|int $id
+     * @param string     $objectName
      *
      * @return Response
      * @throws NonUniqueResultException
@@ -47,9 +48,10 @@ class ApiDeleteAction
      */
     public function delete(
         Request $request,
-        $id
+        $id,
+        string $objectName
     ): Response {
-        $return = $this->deleter->delete($id);
+        $return = $this->deleter->delete($id, $objectName);
 
         if ($return instanceof ExceptionOutput) {
             return $this->responder->response($return, $request, Response::HTTP_NOT_FOUND);

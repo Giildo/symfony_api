@@ -19,12 +19,12 @@ interface RepositoryInterface
     /**
      * Load an item with the ID.
      *
-     * @param string $id
+     * @param string|int $id
      *
      * @return ModelInterface|null
      * @throws NonUniqueResultException
      */
-    public function loadItemById(string $id): ?ModelInterface;
+    public function loadItemById($id): ?ModelInterface;
 
     /**
      * Save an item.

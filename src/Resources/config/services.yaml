@@ -14,3 +14,6 @@ services:
 
   Jojotique\Api\Domain\Deleter\Deleter:
     public: true
+
+  Jojotique\Api\Domain\Updater\Updater:
+    public: true

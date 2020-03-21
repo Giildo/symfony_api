@@ -4,19 +4,15 @@ namespace Jojotique\Api\Domain\Saver;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
-use Jojotique\Api\Application\Helper\ExceptionOutput;
-use Jojotique\Api\Application\Helper\Interfaces\ExceptionOutputInterface;
-use Jojotique\Api\Application\Helper\TokenException;
+use Jojotique\Api\Application\Helper\ModelUpdateHelper;
 use Jojotique\Api\Domain\DTO\Interfaces\DTOInterface;
 use Jojotique\Api\Domain\Model\Interfaces\ModelInterface;
 use Jojotique\Api\Domain\Output\Interfaces\OutInterface;
 use Jojotique\Api\Domain\Output\Output;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class Saver
+class Saver extends ModelUpdateHelper
 {
     private SerializerInterface $serializer;
     private ValidatorInterface $validator;
@@ -65,72 +61,5 @@ class Saver
         }
 
         return new Output($item);
-    }
-
-    /**
-     * Sends an error message if an error is detected in the DTO.
-     *
-     * @param ConstraintViolationListInterface $errors
-     *
-     * @return ExceptionOutputInterface
-     */
-    protected function hasErrors(ConstraintViolationListInterface $errors): ExceptionOutputInterface
-    {
-        $messages = [];
-
-        /** @var ConstraintViolation $error */
-        foreach ($errors->getIterator()->getArrayCopy() as $error) {
-            $messages[] = [
-                'field'   => $error->getPropertyPath(),
-                'message' => $error->getMessage(),
-            ];
-        }
-        return new ExceptionOutput(
-            'The request contains syntax errors. Please check the information provided.',
-            TokenException::BAD_REQUEST,
-            $messages
-        );
-    }
-
-    /**
-     * Envoie un message si l'item n'est pas trouvé avec l'ID.
-     *
-     * @param string|null $itemName
-     *
-     * @return ExceptionOutputInterface
-     */
-    protected function noItemWithThisId(
-        ?string $itemName = 'item'
-    ): ExceptionOutputInterface {
-        return new ExceptionOutput(
-            "No {$itemName} with this ID.",
-            TokenException::NOT_FOUND
-        );
-    }
-
-    /**
-     * Envoie un message d'erreur s'il n'y pas de changement.
-     *
-     * @return ExceptionOutputInterface
-     */
-    protected function hasNoChangement(): ExceptionOutputInterface
-    {
-        return new ExceptionOutput('', TokenException::NO_CHANGEMENT);
-    }
-
-    /**
-     * Envoie un message d'erreur si au moins une contrainte d'unicité a été violée.
-     *
-     * @param string|null $errorText
-     *
-     * @return ExceptionOutputInterface
-     */
-    protected function uniqueConstraintViolation(
-        ?string $errorText = ''
-    ): ExceptionOutputInterface {
-        return new ExceptionOutput(
-            $errorText,
-            TokenException::UNIQUE_CONSTRAINT_VIOLATION
-        );
     }
 }
