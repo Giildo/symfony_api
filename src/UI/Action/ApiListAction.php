@@ -11,13 +11,12 @@ class ApiListAction
 {
     private ApiResponder $responder;
     private Loader $loader;
-    protected string $objectName;
 
     /**
      * ListAction constructor.
      *
-     * @param ApiResponder    $responder
-     * @param Loader $loader
+     * @param ApiResponder $responder
+     * @param Loader       $loader
      */
     public function __construct(
         ApiResponder $responder,
@@ -29,13 +28,14 @@ class ApiListAction
 
     /**
      * @param Request $request
+     * @param string  $objectName
      *
      * @return Response
      */
-    public function list(Request $request): Response
+    public function list(Request $request, string $objectName): Response
     {
         return $this->responder->response(
-            $this->loader->load($this->objectName),
+            $this->loader->load($objectName),
             $request
         );
     }
