@@ -21,12 +21,16 @@ class ModelUpdateHelper
         $messages = [];
 
         /** @var ConstraintViolation $error */
-        foreach ($errors->getIterator()->getArrayCopy() as $error) {
+        foreach (
+            $errors->getIterator()
+                   ->getArrayCopy() as $error
+        ) {
             $messages[] = [
                 'field'   => $error->getPropertyPath(),
                 'message' => $error->getMessage(),
             ];
         }
+
         return new ExceptionOutput(
             'The request contains syntax errors. Please check the information provided.',
             TokenException::BAD_REQUEST,
@@ -39,9 +43,28 @@ class ModelUpdateHelper
      *
      * @return ExceptionOutputInterface
      */
-    protected function noItemWithThisId(): ExceptionOutputInterface {
+    protected function noItemWithThisId(): ExceptionOutputInterface
+    {
         return new ExceptionOutput(
             "No item with this ID.",
+            TokenException::NOT_FOUND
+        );
+    }
+
+    /**
+     * Envoie un message si l'item n'est pas trouvé avec l'ID.
+     *
+     * @param string|int $id
+     * @param string     $objectName
+     *
+     * @return ExceptionOutputInterface
+     */
+    protected function noItemAssociatedWithThisId(
+        $id,
+        string $objectName
+    ): ExceptionOutputInterface {
+        return new ExceptionOutput(
+            "No item \"${objectName}\" with the ID : ${id}.",
             TokenException::NOT_FOUND
         );
     }

@@ -64,17 +64,22 @@ class Saver extends ModelUpdateHelper
         }
 
         if (!empty($associations)) {
-            $allItemsLinked = [];
             foreach ($associations as $association) {
                 $itemsLinked = [];
 
                 /** @var RepositoryInterface $repository */
                 $repository = $this->entityManager->getRepository($association['objectName']);
                 foreach ($itemDTO->{$association['name']} as $uuid) {
+                    $itemLinked = $repository->loadItemById($uuid);
+
+                    if (is_null($itemLinked)) {
+                        return $this->noItemAssociatedWithThisId($uuid, $association['name']);
+                    }
+
                     $itemsLinked[] = $repository->loadItemById($uuid);
                 }
 
-                $allItemsLinked[$association['name']] = $itemsLinked;
+                $itemDTO->{$association['name']} = $itemsLinked;
             }
         }
 
