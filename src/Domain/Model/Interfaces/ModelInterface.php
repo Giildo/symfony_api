@@ -10,10 +10,14 @@ interface ModelInterface
      * Hydrates the model.
      *
      * @param DTOInterface $dto
+     * @param array|null   $itemsAssociated
      *
      * @return ModelInterface
      */
-    public function hydrate(DTOInterface $dto): self;
+    public function hydrate(
+        DTOInterface $dto,
+        ?array $itemsAssociated = []
+    ): self;
 
     /**
      * Updates the model.
