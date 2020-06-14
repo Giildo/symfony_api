@@ -2,7 +2,7 @@
   "name": "jojotique/api",
   "type": "symfony-bundle",
   "license": "MIT",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Build API with Symfony 4",
   "minimum-stability": "stable",
   "require": {
