@@ -7,6 +7,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Jojotique\Api\Application\Helper\ExceptionOutput;
 use Jojotique\Api\Application\Helper\TokenException;
 use Jojotique\Api\Domain\Output\Interfaces\OutInterface;
+use Jojotique\Api\Domain\Output\Interfaces\SpecificOutInterface;
 use Jojotique\Api\Domain\Output\Output;
 use Jojotique\Api\Domain\Output\Outputs;
 use Jojotique\Api\Domain\Repository\Interfaces\RepositoryInterface;
@@ -29,20 +30,33 @@ class Loader
     }
 
     /**
-     * @inheritDoc
+     * @param string                    $objectName
+     * @param string|null               $id
+     * @param array|null                $options
+     * @param SpecificOutInterface|null $specificOutput
+     *
+     * @return OutInterface|null
      */
     public function load(
         string $objectName,
         ?string $id = null,
-        ?array $options = []
+        ?array $options = [],
+        ?SpecificOutInterface $specificOutput = null
     ): ?OutInterface {
         /** @var RepositoryInterface $repository */
         $repository = $this->entityManager->getRepository($objectName);
 
         if (is_null($id)) {
-            return new Outputs(
+            if (is_null($specificOutput)) {
+                return new Outputs(
+                    $repository->loadAll()
+                );
+            }
+
+            $specificOutput->hydrate(
                 $repository->loadAll()
             );
+            return $specificOutput;
         }
 
         try {
