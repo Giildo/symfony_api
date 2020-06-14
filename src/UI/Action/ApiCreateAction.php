@@ -35,23 +35,36 @@ class ApiCreateAction
      * @param string         $objectName
      * @param ModelInterface $item
      * @param array|null     $associations
+     * @param array|null     $groups
      *
      * @return Response
-     * @throws NonUniqueResultException
      */
     public function create(
         Request $request,
         string $dtoName,
         string $objectName,
         ModelInterface $item,
-        ?array $associations = []
+        ?array $associations = [],
+        ?array $groups = []
     ): Response {
         $return = $this->saver->save($request->getContent(), $dtoName, $objectName, $item, $associations);
 
         if ($return instanceof ExceptionOutput) {
-            return $this->responder->response($return, $request, Response::HTTP_BAD_REQUEST);
+            return $this->responder->response(
+                $return,
+                $request,
+                Response::HTTP_BAD_REQUEST,
+                [],
+                $groups
+            );
         }
 
-        return $this->responder->response($return, $request, Response::HTTP_CREATED);
+        return $this->responder->response(
+            $return,
+            $request,
+            Response::HTTP_CREATED,
+            [],
+            $groups
+        );
     }
 }

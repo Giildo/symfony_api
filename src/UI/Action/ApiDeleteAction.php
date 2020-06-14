@@ -40,23 +40,34 @@ class ApiDeleteAction
      * @param Request    $request
      * @param string|int $id
      * @param string     $objectName
+     * @param array|null $groups
      *
      * @return Response
-     * @throws NonUniqueResultException
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function delete(
         Request $request,
         $id,
-        string $objectName
+        string $objectName,
+        ?array $groups = []
     ): Response {
         $return = $this->deleter->delete($id, $objectName);
 
         if ($return instanceof ExceptionOutput) {
-            return $this->responder->response($return, $request, Response::HTTP_NOT_FOUND);
+            return $this->responder->response(
+                $return,
+                $request,
+                Response::HTTP_NOT_FOUND,
+                [],
+                $groups
+            );
         }
 
-        return $this->responder->response($return, $request, Response::HTTP_NO_CONTENT);
+        return $this->responder->response(
+            $return,
+            $request,
+            Response::HTTP_NO_CONTENT,
+            [],
+            $groups
+        );
     }
 }
