@@ -36,17 +36,22 @@ class ApiDetailAction
      * @param Request    $request
      * @param string|int $id
      * @param string     $objectName
+     * @param array|null $groups
      *
      * @return Response
      */
     public function detail(
         Request $request,
         $id,
-        string $objectName
+        string $objectName,
+        ?array $groups = []
     ): Response {
         return $this->responder->response(
             $this->loader->load($objectName, $id),
-            $request
+            $request,
+            Response::HTTP_OK,
+            [],
+            $groups
         );
     }
 }
