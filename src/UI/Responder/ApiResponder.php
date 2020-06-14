@@ -26,6 +26,7 @@ class ApiResponder
      * @param Request|null      $request - Request for caching
      * @param int|null          $status - Response status code
      * @param array|null        $headers - Response headers
+     * @param array|null        $groups
      *
      * @return Response
      */
@@ -33,12 +34,13 @@ class ApiResponder
         ?OutInterface $content = null,
         ?Request $request = null,
         ?int $status = 200,
-        ?array $headers = []
+        ?array $headers = [],
+        ?array $groups = []
     ): Response {
         $headers['Content-Type'] = 'application/json';
 
         return new Response(
-            $content ? $this->serializer->serialize($content, 'json') : null,
+            $content ? $this->serializer->serialize($content, 'json', $groups) : null,
             $status,
             $headers
         );

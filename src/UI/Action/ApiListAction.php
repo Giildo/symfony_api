@@ -27,16 +27,23 @@ class ApiListAction
     }
 
     /**
-     * @param Request $request
-     * @param string  $objectName
+     * @param Request    $request
+     * @param string     $objectName
+     * @param array|null $groups
      *
      * @return Response
      */
-    public function list(Request $request, string $objectName): Response
-    {
+    public function list(
+        Request $request,
+        string $objectName,
+        ?array $groups = []
+    ): Response {
         return $this->responder->response(
             $this->loader->load($objectName),
-            $request
+            $request,
+            Response::HTTP_OK,
+            [],
+            $groups
         );
     }
 }

@@ -42,17 +42,16 @@ class ApiUpdateAction
      * @param string|int $id
      * @param string     $dtoName
      * @param string     $objectName
+     * @param array|null $groups
      *
      * @return Response
-     * @throws NonUniqueResultException
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function update(
         Request $request,
         $id,
         string $dtoName,
-        string $objectName
+        string $objectName,
+        ?array $groups = []
     ): Response {
         $return = $this->updater->update($id, $request->getContent(), $dtoName, $objectName);
 
@@ -60,16 +59,40 @@ class ApiUpdateAction
             switch ($return->getCodeError()) {
                 case TokenException::BAD_REQUEST:
                 case TokenException::UNIQUE_CONSTRAINT_VIOLATION:
-                    return $this->responder->response($return, $request, Response::HTTP_BAD_REQUEST);
+                    return $this->responder->response(
+                        $return,
+                        $request,
+                        Response::HTTP_BAD_REQUEST,
+                        [],
+                        $groups
+                    );
 
                 case TokenException::NOT_FOUND:
-                    return $this->responder->response($return, $request, Response::HTTP_NOT_FOUND);
+                    return $this->responder->response(
+                        $return,
+                        $request,
+                        Response::HTTP_NOT_FOUND,
+                        [],
+                        $groups
+                    );
 
                 default:
-                    return $this->responder->response(null, $request, Response::HTTP_NO_CONTENT);
+                    return $this->responder->response(
+                        null,
+                        $request,
+                        Response::HTTP_NO_CONTENT,
+                        [],
+                        $groups
+                    );
             }
         }
 
-        return $this->responder->response($return, $request);
+        return $this->responder->response(
+            $return,
+            $request,
+            Response::HTTP_OK,
+            [],
+            $groups
+        );
     }
 }
