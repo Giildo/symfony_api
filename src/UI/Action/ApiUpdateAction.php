@@ -17,11 +17,11 @@ class ApiUpdateAction
     /**
      * @var ApiResponder
      */
-    private ApiResponder $responder;
+    protected ApiResponder $responder;
     /**
      * @var Updater
      */
-    private Updater $updater;
+    protected Updater $updater;
 
     /**
      * ApiUpdateAction constructor.

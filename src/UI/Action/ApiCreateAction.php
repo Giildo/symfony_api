@@ -12,8 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApiCreateAction
 {
-    private ApiResponder $responder;
-    private Saver $saver;
+    /**
+     * @var ApiResponder
+     */
+    protected ApiResponder $responder;
+    /**
+     * @var Saver
+     */
+    protected Saver $saver;
 
     /**
      * ApiCreateAction constructor.
