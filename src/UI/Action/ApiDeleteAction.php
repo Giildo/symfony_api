@@ -16,11 +16,11 @@ class ApiDeleteAction
     /**
      * @var ApiResponder
      */
-    private ApiResponder $responder;
+    protected ApiResponder $responder;
     /**
      * @var Deleter
      */
-    private Deleter $deleter;
+    protected Deleter $deleter;
 
     /**
      * ApiDeleteAction constructor.

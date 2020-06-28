@@ -12,11 +12,11 @@ class ApiDetailAction
     /**
      * @var ApiResponder
      */
-    private ApiResponder $responder;
+    protected ApiResponder $responder;
     /**
      * @var Loader
      */
-    private Loader $loader;
+    protected Loader $loader;
 
     /**
      * ApiDetailAction constructor.

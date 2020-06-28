@@ -8,6 +8,8 @@ class TokenException extends Exception
 {
     // General errors
     public const BAD_REQUEST = 400;
+    public const UNAUTHORIZED = 401;
+    public const FORBIDDEN = 403;
     public const NOT_FOUND = 404;
     public const SERVER_ERROR = 500;
 
@@ -15,6 +17,8 @@ class TokenException extends Exception
     public const NO_TOKEN = 1000;
     public const TOKEN_INVALID = 1001;
     public const TOKEN_EXPIRED = 1002;
+    public const TOKEN_HAS_TO_BE_REFRESH = 1003;
+    public const TOKEN_HAS_TO_BE_ACCESS = 1004;
 
     // Connection errors
     public const WRONG_CREDENTIALS = 1100;

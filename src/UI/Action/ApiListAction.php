@@ -11,8 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApiListAction
 {
-    private ApiResponder $responder;
-    private Loader $loader;
+    /**
+     * @var ApiResponder
+     */
+    protected ApiResponder $responder;
+    /**
+     * @var Loader
+     */
+    protected Loader $loader;
 
     /**
      * ListAction constructor.
