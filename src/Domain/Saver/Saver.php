@@ -76,7 +76,7 @@ class Saver extends ModelUpdateHelper
                         return $this->noItemAssociatedWithThisId($uuid, $association['name']);
                     }
 
-                    $itemsLinked[] = $repository->loadItemById($uuid);
+                    $itemsLinked[] = $itemLinked;
                 }
 
                 $itemDTO->{$association['name']} = $itemsLinked;
