@@ -3,7 +3,6 @@
 namespace Jojotique\Api\UI\Action;
 
 use Jojotique\Api\Domain\Loader\Loader;
-use Jojotique\Api\Domain\Output\Interfaces\OutputsInterface;
 use Jojotique\Api\Domain\Output\Interfaces\SpecificOutInterface;
 use Jojotique\Api\UI\Responder\ApiResponder;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,10 +34,10 @@ class ApiListAction
     }
 
     /**
-     * @param Request               $request
-     * @param string                $objectName
-     * @param array|null            $groups
-     * @param OutputsInterface|null $specificOutput
+     * @param Request                   $request
+     * @param string                    $objectName
+     * @param array|null                $groups
+     * @param SpecificOutInterface|null $specificOutput
      *
      * @return Response
      */

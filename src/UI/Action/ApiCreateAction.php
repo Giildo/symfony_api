@@ -72,9 +72,7 @@ class ApiCreateAction
             return $this->responder->response(
                 $return,
                 $request,
-                Response::HTTP_BAD_REQUEST,
-                [],
-                $groups
+                Response::HTTP_BAD_REQUEST
             );
         }
 
