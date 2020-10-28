@@ -42,6 +42,7 @@ class ApiCreateAction
      * @param ModelInterface $item
      * @param array|null     $associations
      * @param array|null     $groups
+     * @param array|null     $options
      *
      * @return Response
      */
@@ -51,9 +52,10 @@ class ApiCreateAction
         string $objectName,
         ModelInterface $item,
         ?array $associations = [],
-        ?array $groups = []
+        ?array $groups = [],
+        ?array $options
     ): Response {
-        $return = $this->saver->save($request->getContent(), $dtoName, $objectName, $item, $associations);
+        $return = $this->saver->save($request->getContent(), $dtoName, $objectName, $item, $associations, $options);
 
         if ($return instanceof ExceptionOutput) {
             return $this->responder->response(
