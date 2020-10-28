@@ -5,6 +5,7 @@ namespace Jojotique\Api\UI\Action;
 use Doctrine\ORM\NonUniqueResultException;
 use Jojotique\Api\Application\Helper\ExceptionOutput;
 use Jojotique\Api\Domain\Model\Interfaces\ModelInterface;
+use Jojotique\Api\Domain\Output\Interfaces\SpecificOutInterface;
 use Jojotique\Api\Domain\Saver\Saver;
 use Jojotique\Api\UI\Responder\ApiResponder;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,13 +37,14 @@ class ApiCreateAction
     }
 
     /**
-     * @param Request        $request
-     * @param string         $dtoName
-     * @param string         $objectName
-     * @param ModelInterface $item
-     * @param array|null     $associations
-     * @param array|null     $groups
-     * @param array|null     $options
+     * @param Request              $request
+     * @param string               $dtoName
+     * @param string               $objectName
+     * @param ModelInterface       $item
+     * @param SpecificOutInterface $output
+     * @param array|null           $associations
+     * @param array|null           $groups
+     * @param array|null           $options
      *
      * @return Response
      */
@@ -51,11 +53,20 @@ class ApiCreateAction
         string $dtoName,
         string $objectName,
         ModelInterface $item,
+        SpecificOutInterface $output,
         ?array $associations = [],
         ?array $groups = [],
         ?array $options = []
     ): Response {
-        $return = $this->saver->save($request->getContent(), $dtoName, $objectName, $item, $associations, $options);
+        $return = $this->saver->save(
+            $request->getContent(),
+            $dtoName,
+            $objectName,
+            $item,
+            $output,
+            $associations,
+            $options
+        );
 
         if ($return instanceof ExceptionOutput) {
             return $this->responder->response(
