@@ -2,6 +2,8 @@
 
 namespace Jojotique\Api\UI\Action;
 
+use Jojotique\Api\Application\Helper\ExceptionOutput;
+use Jojotique\Api\Application\Helper\TokenException;
 use Jojotique\Api\Domain\Loader\Loader;
 use Jojotique\Api\UI\Responder\ApiResponder;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,8 +48,40 @@ class ApiDetailAction
         string $objectName,
         ?array $groups = []
     ): Response {
+        $return = $this->loader->load($objectName, $id);
+
+        if ($return instanceof ExceptionOutput) {
+            switch ($return->getCodeError()) {
+                case TokenException::UNIQUE_CONSTRAINT_VIOLATION:
+                    return $this->responder->response(
+                        $return,
+                        $request,
+                        Response::HTTP_BAD_REQUEST,
+                        [],
+                        $groups
+                    );
+
+                case TokenException::NOT_FOUND:
+                    return $this->responder->response(
+                        $return,
+                        $request,
+                        Response::HTTP_NOT_FOUND,
+                        [],
+                        $groups
+                    );
+            }
+        }
+
+        if ($return instanceof ExceptionOutput) {
+            return $this->responder->response(
+                $return,
+                $request,
+                Response::HTTP_BAD_REQUEST,
+            );
+        }
+
         return $this->responder->response(
-            $this->loader->load($objectName, $id),
+            $return,
             $request,
             Response::HTTP_OK,
             [],

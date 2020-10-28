@@ -56,9 +56,7 @@ class ApiDeleteAction
             return $this->responder->response(
                 $return,
                 $request,
-                Response::HTTP_NOT_FOUND,
-                [],
-                $groups
+                Response::HTTP_NOT_FOUND
             );
         }
 
