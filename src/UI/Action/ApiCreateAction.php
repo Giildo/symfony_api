@@ -53,7 +53,7 @@ class ApiCreateAction
         ModelInterface $item,
         ?array $associations = [],
         ?array $groups = [],
-        ?array $options
+        ?array $options = []
     ): Response {
         $return = $this->saver->save($request->getContent(), $dtoName, $objectName, $item, $associations, $options);
 
