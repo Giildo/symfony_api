@@ -9,6 +9,7 @@ use Jojotique\Api\Application\Helper\ModelUpdateHelper;
 use Jojotique\Api\Domain\DTO\Interfaces\DTOInterface;
 use Jojotique\Api\Domain\Model\Interfaces\ModelInterface;
 use Jojotique\Api\Domain\Output\Interfaces\OutInterface;
+use Jojotique\Api\Domain\Output\Interfaces\SpecificOutInterface;
 use Jojotique\Api\Domain\Output\Output;
 use Jojotique\Api\Domain\Repository\Interfaces\RepositoryInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -38,12 +39,13 @@ class Saver extends ModelUpdateHelper
     }
 
     /**
-     * @param string         $credentials
-     * @param string         $dtoName
-     * @param string         $objectName
-     * @param ModelInterface $item
-     * @param array|null     $associations
-     * @param array|null     $options
+     * @param string               $credentials
+     * @param string               $dtoName
+     * @param string               $objectName
+     * @param ModelInterface       $item
+     * @param SpecificOutInterface $output
+     * @param array|null           $associations
+     * @param array|null           $options
      *
      * @return OutInterface
      */
@@ -52,6 +54,7 @@ class Saver extends ModelUpdateHelper
         string $dtoName,
         string $objectName,
         ModelInterface $item,
+        SpecificOutInterface $output,
         ?array $associations = [],
         ?array $options = []
     ): OutInterface {
@@ -96,6 +99,7 @@ class Saver extends ModelUpdateHelper
             return $this->uniqueConstraintViolation('This name is already taken.');
         }
 
-        return new Output($item);
+        $output->hydrate($item);
+        return $output;
     }
 }
