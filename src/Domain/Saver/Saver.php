@@ -43,16 +43,17 @@ class Saver extends ModelUpdateHelper
      * @param string         $objectName
      * @param ModelInterface $item
      * @param array|null     $associations
+     * @param array|null     $options
      *
      * @return OutInterface
-     * @throws NonUniqueResultException
      */
     public function save(
         string $credentials,
         string $dtoName,
         string $objectName,
         ModelInterface $item,
-        ?array $associations = []
+        ?array $associations = [],
+        ?array $options = []
     ): OutInterface {
         /** @var DTOInterface $itemDTO */
         $itemDTO = $this->serializer->deserialize($credentials, $dtoName, 'json');
@@ -69,14 +70,16 @@ class Saver extends ModelUpdateHelper
 
                 /** @var RepositoryInterface $repository */
                 $repository = $this->entityManager->getRepository($association['objectName']);
-                foreach ($itemDTO->{$association['name']} as $uuid) {
-                    $itemLinked = $repository->loadItemById($uuid);
+                foreach ($itemDTO->{$association['name']} as $value) {
+                    $itemLinked = array_key_exists('loadItemBy', $options)
+                        ? $repository->{$options['loadItemBy']}($value)
+                        : $repository->loadItemById($value);
 
                     if (is_null($itemLinked)) {
-                        return $this->noItemAssociatedWithThisId($uuid, $association['name']);
+                        return $this->noItemAssociatedWithThisId($value, $association['name']);
                     }
 
-                    $itemsLinked[] = $repository->loadItemById($uuid);
+                    $itemsLinked[] = $itemLinked;
                 }
 
                 $itemDTO->{$association['name']} = $itemsLinked;
