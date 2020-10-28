@@ -64,7 +64,7 @@ class ModelUpdateHelper
         string $objectName
     ): ExceptionOutputInterface {
         return new ExceptionOutput(
-            "No item \"${objectName}\" with the ID : ${id}.",
+            "No item \"${objectName}\" with the value : ${id}.",
             TokenException::NOT_FOUND
         );
     }
